@@ -215,4 +215,15 @@ public class RecipeCompilerTest {
     Set<String> loadableDirectives = compile.getSymbols().getLoadableDirectives();
     Assert.assertEquals(4, loadableDirectives.size());
   }
+  @Test
+  public void testAggregateStatsDirectiveGrammar() throws Exception {
+    String[] recipe = {
+        "aggregate-stats :size_col :time_col total_size_mb total_time_sec"
+    };
+
+    RecipeParser parser = new RecipeParser(recipe);
+    List<Directive> directives = parser.parse();
+    Assert.assertEquals("aggregate-stats", directives.get(0).name());
+}
+
 }
