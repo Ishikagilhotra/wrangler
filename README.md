@@ -1,5 +1,18 @@
-# Data Prep
+#Usage of these 2 new parsers
 
+The ByteSize Parser help to process data columns containing information about sizes (like file sizes, data transfer amounts, or storage capacities) expressed in human-readable units such as KB, MB, GB, and so on. Its primary function is to convert these varied units into a uniform representation of raw bytes. This standardization is crucial for enabling accurate mathematical operations (summing, averaging, comparing), efficient sorting and filtering based on size, and seamless integration with systems or directives (like aggregate-stats) that require size values in a consistent byte format.
+
+Similarly, the TimeDuration Parser is utilized for data columns that represent time intervals or durations specified with common time units like milliseconds (ms), seconds (s), minutes (min), and hours (h). This parser's role is to transform these different time units into a single, consistent unit of milliseconds. This uniform representation simplifies the calculation of time differences and totals, facilitates effective sorting and filtering based on duration, and ensures compatibility with systems or directives (again, including aggregate-stats) that expect time values in milliseconds.
+
+In essence, both parsers act as vital preprocessing steps within Wrangler, taking human-friendly but diverse unit-based data and converting it into a standardized numerical format. This eliminates the complexity and potential errors associated with manual unit conversions within Wrangler recipes, ultimately leading to more efficient and reliable data manipulation and analysis, particularly when combined with the new aggregate-stats directive for calculating total sizes and durations.
+
+
+
+
+
+
+
+# Data Prep
 ![cm-available](https://cdap-users.herokuapp.com/assets/cm-available.svg)
 ![cdap-transform](https://cdap-users.herokuapp.com/assets/cdap-transform.svg)
 [![Build Status](https://travis-ci.org/cdapio/hydrator-plugins.svg?branch=develop)](https://travis-ci.org/cdapio/hydrator-plugins)
