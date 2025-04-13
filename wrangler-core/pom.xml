@@ -69,9 +69,16 @@
       <version>${cdap.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- <dependency>
+      <groupId>io.cdap.wrangler</groupId>
+      <artifactId>wrangler-testing</artifactId>
+      <version>${project.version}</version>
+     <scope>test</scope>
+    </dependency> -->
 
     <!-- Test -->
 
+    
     <dependency>
       <groupId>io.cdap.cdap</groupId>
       <artifactId>cdap-unit-test</artifactId>

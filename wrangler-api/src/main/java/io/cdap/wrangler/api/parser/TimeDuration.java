@@ -18,47 +18,53 @@ package io.cdap.wrangler.api.parser;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+
+/**
+ * A token that represents a time duration string (e.g., "2s", "500ms") and parses it into nanoseconds.
+ */
 public class TimeDuration implements Token {
-    private final long nanoseconds;
-    private final String raw;
+  private final long nanoseconds;
+  private final String raw;
 
-    public TimeDuration(String value) {
-        //super(Type.TIME_DURATION, value);
-        this.raw=value;
-        this.nanoseconds = parse(value);
-    }
+  public TimeDuration(String value) {
+    this.raw = value;
+    this.nanoseconds = parse(value);
+  }
 
-    private long parse(String value) {
-        value = value.toLowerCase().trim();
-        if (value.endsWith("ms")) {
-            return (long)(Double.parseDouble(value.replace("ms", "")) * 1_000_000);
-        } else if (value.endsWith("s")) {
-            return (long)(Double.parseDouble(value.replace("s", "")) * 1_000_000_000);
-        } else if (value.endsWith("m")) {
-            return (long)(Double.parseDouble(value.replace("m", "")) * 60 * 1_000_000_000);
-        } else if (value.endsWith("h")) {
-            return (long)(Double.parseDouble(value.replace("h", "")) * 3600 * 1_000_000_000);
-        } else {
-            throw new IllegalArgumentException("Invalid time duration: " + value);
-        }
+  private long parse(String value) {
+    value = value.toLowerCase().trim();
+    if (value.endsWith("ms")) {
+      return (long) (Double.parseDouble(value.replace("ms", "").trim()) * 1_000_000);
+    } else if (value.endsWith("s")) {
+      return (long) (Double.parseDouble(value.replace("s", "").trim()) * 1_000_000_000);
+    } else if (value.endsWith("m")) {
+      return (long) (Double.parseDouble(value.replace("m", "").trim()) * 60 * 1_000_000_000);
+    } else if (value.endsWith("h")) {
+      return (long) (Double.parseDouble(value.replace("h", "").trim()) * 3600 * 1_000_000_000);
+    } else {
+      throw new IllegalArgumentException("Invalid time duration: " + value);
     }
+  }
 
-    public long getNanoseconds() {
-        return nanoseconds;
- 
-    }
-    @Override
-    public Object value() {
-        return raw;
-    }
+  /**
+   * Returns the duration in nanoseconds.
+   */
+  public long getNanoseconds() {
+    return nanoseconds;
+  }
 
-    @Override
-    public TokenType type() {
-        return TokenType.TIME_DURATION;
-    }
+  @Override
+  public Object value() {
+    return raw;
+  }
 
-    @Override
-    public JsonElement toJson() {
-        return new JsonPrimitive(raw);
-    }    
+  @Override
+  public TokenType type() {
+    return TokenType.TIME_DURATION;
+  }
+
+  @Override
+  public JsonElement toJson() {
+    return new JsonPrimitive(raw);
+  }
 }

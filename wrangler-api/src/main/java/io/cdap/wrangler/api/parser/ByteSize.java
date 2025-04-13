@@ -16,52 +16,55 @@
 
 package io.cdap.wrangler.api.parser;
 
-
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+
+/**
+ * A token that represents a byte size string (e.g., "1MB", "512KB") and parses it into bytes.
+ */
 public class ByteSize implements Token {
-    private final long bytes;
-    private final String raw;
+  private final long bytes;
+  private final String raw;
 
-    public ByteSize(String value) {
-        //super(Type.BYTE_SIZE, value);
-        this.raw=value;
-        this.bytes = parse(value);
+  public ByteSize(String value) {
+    this.raw = value;
+    this.bytes = parse(value);
+  }
+
+  private long parse(String value) {
+    value = value.toUpperCase().trim();
+    if (value.endsWith("KB")) {
+      return (long) (Double.parseDouble(value.replace("KB", "").trim()) * 1024);
+    } else if (value.endsWith("MB")) {
+      return (long) (Double.parseDouble(value.replace("MB", "").trim()) * 1024 * 1024);
+    } else if (value.endsWith("GB")) {
+      return (long) (Double.parseDouble(value.replace("GB", "").trim()) * 1024 * 1024 * 1024);
+    } else if (value.endsWith("B")) {
+      return Long.parseLong(value.replace("B", "").trim());
+    } else {
+      throw new IllegalArgumentException("Invalid byte size: " + value);
     }
+  }
 
-    private long parse(String value) {
-        value = value.toUpperCase().trim();
-        if (value.endsWith("KB")) {
-            return (long)(Double.parseDouble(value.replace("KB", "")) * 1024);
-        } else if (value.endsWith("MB")) {
-            return (long)(Double.parseDouble(value.replace("MB", "")) * 1024 * 1024);
-        } else if (value.endsWith("GB")) {
-            return (long)(Double.parseDouble(value.replace("GB", "")) * 1024 * 1024 * 1024);
-        } else if (value.endsWith("B")) {
-            return Long.parseLong(value.replace("B", ""));
-        } else {
-            throw new IllegalArgumentException("Invalid byte size: " + value);
-        }
-    }
+  /**
+   * Returns the parsed byte size in bytes.
+   */
+  public long getBytes() {
+    return bytes;
+  }
 
-    public long getBytes() {
-        return bytes;
-    }
-    @Override
-    public Object value() {
-        return raw;
-    }
+  @Override
+  public Object value() {
+    return raw;
+  }
 
-    @Override
-    public TokenType type() {
-        return TokenType.BYTE_SIZE;
-    }
+  @Override
+  public TokenType type() {
+    return TokenType.BYTE_SIZE;
+  }
 
-    @Override
-    public JsonElement toJson() {
-        return new JsonPrimitive(raw);
-    }  
-
-    
-
+  @Override
+  public JsonElement toJson() {
+    return new JsonPrimitive(raw);
+  }
 }

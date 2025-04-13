@@ -15,6 +15,10 @@
  */
 
 package io.cdap.wrangler.parser;
+import java.util.List;
+
+import io.cdap.wrangler.RecipeParser;
+import io.cdap.wrangler.api.Directive;
 
 import io.cdap.wrangler.TestingRig;
 import io.cdap.wrangler.api.CompileException;
